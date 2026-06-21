@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# 環境
+.env
+.venv/
+venv/
+env/
+
+# 本機快取數據（不上傳，Railway 每次重新抓取）
+data/
+
+# 日誌
+logs/
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# 巢狀資料夾（舊版備份）
+stock_dashboard/

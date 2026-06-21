@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台美股漲跌預測儀表板</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ── 米色暖調亮色系 ─────────────────────────────────────────────────────── */
+:root {
+  --bg:        #F0EAE0;
+  --bg2:       #E6DFD4;
+  --card:      #FAF7F2;
+  --card2:     #F2EDE5;
+  --card3:     #E8E2D8;
+  --border:    #D6CFC4;
+  --border2:   #C4BBB0;
+
+  /* 中飽和、清晰可見的顏色 */
+  --red:       #A63838;
+  --red-soft:  #C04848;
+  --red-bg:    rgba(166,56,56,0.09);
+  --red-glow:  rgba(166,56,56,0.15);
+
+  --green:     #2E7A56;
+  --green-soft:#3A8E66;
+  --green-bg:  rgba(46,122,86,0.09);
+  --green-glow:rgba(46,122,86,0.15);
+
+  --amber:     #8A6010;
+  --amber-soft:#A07018;
+  --amber-bg:  rgba(138,96,16,0.09);
+
+  --blue:      #3458A0;
+  --blue-soft: #4268B0;
+  --blue-bg:   rgba(52,88,160,0.10);
+
+  --purple:    #604E9A;
+  --purple-bg: rgba(96,78,154,0.09);
+
+  --text:      #28221A;
+  --text2:     #5A5048;
+  --text3:     #8A8278;
+
+  --radius:    10px;
+  --radius-sm: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'SF Pro Display', -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── 頁首 ─────────────────────────────────────────────────────────────── */
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
+.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.last-update { color: var(--text3); font-size: 11px; }
+.btn { border: none; border-radius: var(--radius-sm); cursor: pointer; font-size: 12px; font-weight: 600; transition: all .2s; padding: 7px 14px; }
+.btn-primary { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(52,88,160,.3); }
+.btn-primary:hover { background: rgba(52,88,160,.18); }
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; }
+.btn-help { background: var(--card2); color: var(--text2); border: 1px solid var(--border); }
+.btn-help:hover { background: var(--card3); color: var(--text); }
+
+.container { max-width: 1360px; margin: 0 auto; padding: 24px 20px; }
+
+/* ── 主訊號大卡 ───────────────────────────────────────────────────────── */
+.signal-hero {
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid;
+}
+.signal-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top left, var(--glow-color, transparent) 0%, transparent 60%);
+  pointer-events: none;
+}
+.signal-hero.safe    { border-color: rgba(46,122,86,.4);    --glow-color: rgba(46,122,86,.07);  background: rgba(46,122,86,.05); }
+.signal-hero.yellow_light { border-color: rgba(138,96,16,.4);  --glow-color: rgba(138,96,16,.07);  background: rgba(138,96,16,.05); }
+.signal-hero.yellow_deep  { border-color: rgba(138,96,16,.5);  --glow-color: rgba(138,96,16,.09);  background: rgba(138,96,16,.07); }
+.signal-hero.orange  { border-color: rgba(180,90,40,.5);    --glow-color: rgba(180,90,40,.10);  background: rgba(180,90,40,.06); }
+.signal-hero.red     { border-color: rgba(166,56,56,.55);   --glow-color: rgba(166,56,56,.12);  background: rgba(166,56,56,.07); }
+
+.signal-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--text3); text-transform: uppercase; margin-bottom: 8px; }
+.signal-main { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.signal-left {}
+.signal-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+.signal-subtitle { font-size: 13px; color: var(--text2); max-width: 560px; line-height: 1.7; }
+.signal-plain {
+  background: rgba(255,255,255,.6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+  max-width: 600px;
+}
+.signal-plain b { color: var(--text); }
+
+.signal-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.strength-badge { font-size: 10px; font-weight: 800; letter-spacing: 2px; padding: 4px 12px; border-radius: 20px; }
+.strength-STRONG { background: var(--red-bg); color: var(--red); border: 1px solid rgba(166,56,56,.3); }
+.strength-MEDIUM { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(138,96,16,.3); }
+.strength-WEAK   { background: rgba(0,0,0,.04); color: var(--text3); border: 1px solid var(--border); }
+
+/* ── 數字摘要列 ──────────────────────────────────────────────────────── */
+.summary-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+.summary-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  cursor: help;
+  transition: border-color .2s;
+  position: relative;
+}
+.summary-card:hover { border-color: var(--border2); }
+.summary-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text3); text-transform: uppercase; margin-bottom: 6px; }
+.summary-value { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.summary-sub { font-size: 11px; color: var(--text2); margin-top: 5px; }
+.summary-value.c-green  { color: var(--green); }
+.summary-value.c-amber  { color: var(--amber); }
+.summary-value.c-red    { color: var(--red); }
+.summary-value.c-blue   { color: var(--blue); }
+
+/* tooltip */
+.tip { position: relative; }
+.tip-box {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%; transform: translateX(-50%);
+  background: var(--card3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.6;
+  width: 220px;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(30,20,10,.15);
+  white-space: normal;
+}
+.tip:hover .tip-box { display: block; }
+
+/* ── 機率計 ──────────────────────────────────────────────────────────── */
+.prob-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+.prob-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.prob-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--text3); text-transform: uppercase; }
+.prob-number { font-size: 32px; font-weight: 900; letter-spacing: -1px; }
+.prob-desc { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.gauge-track { background: var(--card3); border-radius: 4px; height: 8px; overflow: hidden; margin-bottom: 6px; }
+.gauge-fill { height: 100%; border-radius: 4px; transition: width .9s cubic-bezier(.4,0,.2,1); }
+.gauge-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); }
+
+/* ── 層分數 ──────────────────────────────────────────────────────────── */
+.layer-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+.layer-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.layer-name { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text3); text-transform: uppercase; margin-bottom: 8px; }
+.layer-value { font-size: 20px; font-weight: 800; color: var(--blue); }
+.layer-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.layer-bar { background: var(--card3); border-radius: 3px; height: 4px; margin-top: 8px; overflow: hidden; }
+.layer-fill { height: 100%; border-radius: 3px; transition: width .8s ease; }
+
+/* ── 18 指標格 ───────────────────────────────────────────────────────── */
+.section-header { display: flex; justify-content: space-between; align-items: center; margin: 28px 0 14px; }
+.section-title { font-size: 13px; font-weight: 700; letter-spacing: .5px; color: var(--text2); }
+.section-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.badge-warn { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(138,96,16,.3); }
+.weight-tags { display: flex; gap: 14px; font-size: 10px; color: var(--text3); margin-bottom: 14px; }
+.weight-tags span { display: flex; align-items: center; gap: 5px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; }
+.dot-core { background: var(--red); }
+.dot-std  { background: var(--blue); }
+.dot-aux  { background: var(--text3); }
+
+.indicators-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 28px; }
+.ind-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 15px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+.ind-card:hover { border-color: var(--border2); background: var(--card2); transform: translateY(-1px); }
+.ind-card.warn   { border-color: rgba(138,96,16,.35);  background: rgba(138,96,16,.06); }
+.ind-card.danger { border-color: rgba(166,56,56,.35); background: rgba(166,56,56,.06); }
+
+.ind-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
+.ind-num { font-size: 10px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+.score-pill { font-size: 11px; font-weight: 800; padding: 2px 9px; border-radius: 10px; }
+.pill-0 { background: var(--green-bg);  color: var(--green); border: 1px solid rgba(46,122,86,.2); }
+.pill-1 { background: var(--amber-bg);  color: var(--amber); border: 1px solid rgba(138,96,16,.2); }
+.pill-2 { background: rgba(160,80,30,.10); color: #A05020; border: 1px solid rgba(160,80,30,.2); }
+.pill-3 { background: var(--red-bg);    color: var(--red);   border: 1px solid rgba(166,56,56,.2); }
+
+.ind-name   { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.ind-detail { font-size: 11px; color: var(--text2); line-height: 1.5; }
+.ind-plain  { font-size: 11px; color: var(--text3); margin-top: 4px; font-style: italic; }
+.ind-source { font-size: 10px; color: var(--text3); margin-top: 5px; opacity: .6; }
+.severe-tag {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(166,56,56,.15); color: var(--red);
+  font-size: 9px; font-weight: 800; padding: 1px 6px;
+  border-radius: 4px; letter-spacing: 1px;
+  border: 1px solid rgba(166,56,56,.3);
+}
+
+/* ── 圖表區 ──────────────────────────────────────────────────────────── */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+.chart-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.chart-card h3 { font-size: 11px; font-weight: 700; letter-spacing: .5px; color: var(--text3); text-transform: uppercase; margin-bottom: 14px; }
+canvas { max-height: 180px; }
+
+/* ── 買賣建議 ────────────────────────────────────────────────────────── */
+.tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.tab-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text3);
+  padding: 7px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all .2s;
+}
+.tab-btn:hover { color: var(--text2); border-color: var(--border2); }
+.tab-btn.active { background: var(--card2); border-color: var(--blue); color: var(--text); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 12px; }
+.stock-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  transition: all .2s;
+}
+.stock-card:hover { border-color: var(--border2); }
+.stock-card.buy-card  { border-left: 2px solid var(--green); }
+.stock-card.sell-card { border-left: 2px solid var(--red); }
+
+.stock-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.stock-name   { font-size: 14px; font-weight: 700; }
+.stock-ticker { font-size: 10px; color: var(--text3); margin-top: 2px; }
+.action-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 10px; white-space: nowrap; }
+.action-buy    { background: var(--green-bg); color: var(--green); border: 1px solid rgba(46,122,86,.3); }
+.action-sell   { background: var(--red-bg);   color: var(--red);   border: 1px solid rgba(166,56,56,.3); }
+.action-reduce { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(138,96,16,.3); }
+
+.stock-price { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 2px; }
+.stock-meta  { font-size: 10px; color: var(--text3); margin-bottom: 8px; }
+.stock-sparkline { height: 56px; margin: 6px 0 8px; }
+.stock-returns { display: flex; gap: 10px; font-size: 11px; font-weight: 600; margin-bottom: 6px; }
+.ret-up   { color: var(--green); }
+.ret-down { color: var(--red); }
+.ret-flat { color: var(--text3); }
+.score-bar { background: var(--card3); border-radius: 3px; height: 3px; margin-bottom: 10px; overflow: hidden; }
+.score-fill-buy  { height: 100%; background: var(--green); border-radius: 3px; }
+.score-fill-sell { height: 100%; background: var(--red);   border-radius: 3px; }
+
+.reason-box {
+  background: rgba(0,0,0,.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.85;
+  white-space: pre-line;
+}
+
+/* ── 類股輪動 ────────────────────────────────────────────────────────── */
+.sector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 10px; }
+.sector-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.sector-rank { font-size: 10px; color: var(--text3); margin-bottom: 4px; }
+.sector-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.sector-score-wrap { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; }
+.sector-score { font-size: 22px; font-weight: 800; }
+.sector-max   { font-size: 11px; color: var(--text3); }
+.sector-bar   { background: var(--card3); border-radius: 3px; height: 3px; margin-bottom: 8px; overflow: hidden; }
+.sector-fill  { height: 100%; border-radius: 3px; }
+.sector-sugg  { font-size: 11px; font-weight: 700; }
+.sugg-add    { color: var(--green); }
+.sugg-watch  { color: var(--amber); }
+.sugg-reduce { color: var(--red); }
+
+/* ── 加密貨幣 ────────────────────────────────────────────────────────── */
+.fg-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.fg-left .label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text3); text-transform: uppercase; margin-bottom: 6px; }
+.fg-left .value { font-size: 30px; font-weight: 900; letter-spacing: -1px; }
+.fg-left .sub   { font-size: 13px; font-weight: 700; margin-top: 2px; }
+.fg-right { flex: 1; }
+
+/* ── 說明書 Modal ────────────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(30,20,10,.52);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(30,20,10,.2);
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  background: var(--card);
+  z-index: 10;
+}
+.modal-title { font-size: 16px; font-weight: 800; }
+.modal-close { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 20px; line-height: 1; padding: 2px 6px; border-radius: 4px; }
+.modal-close:hover { color: var(--text); background: var(--card3); }
+
+.guide-body { padding: 20px 24px 28px; }
+.guide-section { margin-bottom: 24px; }
+.guide-section-title {
+  font-size: 11px; font-weight: 800; letter-spacing: 2px;
+  color: var(--text3); text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.guide-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+.guide-icon { font-size: 18px; min-width: 28px; text-align: center; padding-top: 1px; }
+.guide-text .term { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.guide-text .desc { font-size: 12px; color: var(--text2); line-height: 1.7; }
+.guide-text .example { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+.signal-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.signal-table th { font-size: 10px; font-weight: 700; color: var(--text3); padding: 6px 10px; text-align: left; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+.signal-table td { font-size: 12px; padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text2); }
+.signal-table td:first-child { font-weight: 700; color: var(--text); }
+
+/* ── 指標 detail Modal ───────────────────────────────────────────────── */
+.det-modal {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(30,20,10,.2);
+}
+.det-body { padding: 16px 20px 24px; }
+.kv-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.kv-row:last-child { border-bottom: none; }
+.kv-k { color: var(--text3); }
+.kv-v { font-weight: 700; color: var(--text); }
+
+/* ── 載入中 ──────────────────────────────────────────────────────────── */
+.loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 380px; gap: 14px; }
+.spinner { width: 36px; height: 36px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .75s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading p { color: var(--text3); font-size: 12px; }
+
+/* ── Notice ──────────────────────────────────────────────────────────── */
+.notice {
+  background: rgba(166,56,56,.07);
+  border: 1px solid rgba(166,56,56,.25);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--red);
+  line-height: 1.7;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .summary-row { grid-template-columns: repeat(2,1fr); }
+  .indicators-grid { grid-template-columns: repeat(2,1fr); }
+  .chart-grid { grid-template-columns: 1fr; }
+  .layer-row { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 560px) {
+  .summary-row { grid-template-columns: 1fr 1fr; }
+  .indicators-grid { grid-template-columns: 1fr; }
+  .layer-row { grid-template-columns: 1fr; }
+  header { padding: 12px 16px; }
+  .container { padding: 16px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── 頁首 ── -->
+<header>
+  <div class="logo">
+    <div class="logo-dot" id="liveDot"></div>
+    <h1>台美股漲跌預測儀表板</h1>
+  </div>
+  <div class="header-right">
+    <span class="last-update" id="lastUpdate">載入中…</span>
+    <button class="btn btn-help" onclick="openGuide()">📖 說明書</button>
+    <button class="btn btn-primary" id="btnRefresh" onclick="manualRefresh()">🔄 更新數據</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Loading -->
+  <div class="loading" id="loadingDiv">
+    <div class="spinner"></div>
+    <p>正在載入分析數據…</p>
+  </div>
+
+  <div id="mainContent" style="display:none">
+
+    <!-- ── 主訊號 ── -->
+    <div class="signal-hero" id="signalHero">
+      <div class="signal-eyebrow">即時市場判斷</div>
+      <div class="signal-main">
+        <div class="signal-left">
+          <div class="signal-title" id="signalTitle">—</div>
+          <div class="signal-subtitle" id="signalSubtitle">—</div>
+          <div class="signal-plain" id="signalPlain">—</div>
+        </div>
+        <div class="signal-right">
+          <div class="strength-badge" id="strengthBadge"></div>
+          <div style="font-size:11px;color:var(--text3);text-align:right" id="crashLabel"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notice -->
+    <div class="notice" id="noticeBox" style="display:none"></div>
+
+    <!-- ── 數字摘要 ── -->
+    <div class="summary-row">
+      <div class="summary-card tip">
+        <div class="summary-label">雷達總分</div>
+        <div class="summary-value" id="totalScore">—</div>
+        <div class="summary-sub">滿分 22，分數越高越危險</div>
+        <div class="tip-box">系統將 18 個指標各自評分後加權加總。<br>0–5 安全 · 6–12 警戒 · 13+ 危險</div>
+      </div>
+      <div class="summary-card tip">
+        <div class="summary-label">明日漲跌機率</div>
+        <div class="summary-value" id="crashProb">—</div>
+        <div class="summary-sub" id="probSub">根據歷史模型估算</div>
+        <div class="tip-box">根據 18 項指標的歷史準確率加權估算。<br>高於 60% 建議減碼，低於 20% 可正常持股。</div>
+      </div>
+      <div class="summary-card tip">
+        <div class="summary-label">嚴重警示數</div>
+        <div class="summary-value" id="severeCount">—</div>
+        <div class="summary-sub" id="severeSub">SEVERE 等級指標</div>
+        <div class="tip-box">達到 SEVERE（極度異常）的指標數量。<br>2 個以上 → 訊號自動升級為紅燈。</div>
+      </div>
+      <div class="summary-card tip">
+        <div class="summary-label">市場動能</div>
+        <div class="summary-value" id="momentumVal">—</div>
+        <div class="summary-sub" id="momentumSub">近 3 日趨勢</div>
+        <div class="tip-box">最近 3 天的雷達分數變化方向。<br>惡化代表風險正在上升，改善代表壓力釋放。</div>
+      </div>
+    </div>
+
+    <!-- ── 機率計 ── -->
+    <div class="prob-section">
+      <div class="prob-header">
+        <div>
+          <div class="prob-title">風險評估儀表</div>
+          <div class="prob-desc">綜合 18 項指標的市場風險溫度計</div>
+        </div>
+        <div style="text-align:right">
+          <div class="prob-number" id="probGaugeNum">—</div>
+          <div class="prob-desc" id="probGaugeLabel">—</div>
+        </div>
+      </div>
+      <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
+      <div class="gauge-labels"><span>🟢 安全 (0–5)</span><span>🟡 警戒 (6–12)</span><span>🔴 危險 (13–22)</span></div>
+    </div>
+
+    <!-- ── 層分數 ── -->
+    <div class="layer-row">
+      <div class="layer-card tip">
+        <div class="layer-name">核心層（1.5x 加權）</div>
+        <div class="layer-value" id="coreScore">—</div>
+        <div class="layer-sub">外資 · 融資 · 技術面 · 三大法人</div>
+        <div class="layer-bar"><div class="layer-fill" id="coreFill" style="background:var(--red)"></div></div>
+        <div class="tip-box">最重要的 6 個指標，每點警示乘以 1.5 倍計算。</div>
+      </div>
+      <div class="layer-card tip">
+        <div class="layer-name">標準層（1.0x 加權）</div>
+        <div class="layer-value" id="stdScore">—</div>
+        <div class="layer-sub">VIX · 美債 · 匯率 · 量能 · 乖離</div>
+        <div class="layer-bar"><div class="layer-fill" id="stdFill" style="background:var(--blue)"></div></div>
+        <div class="tip-box">中等重要性的 9 個指標，標準計算。</div>
+      </div>
+      <div class="layer-card tip">
+        <div class="layer-name">基本面背景</div>
+        <div class="layer-value" id="peLevel">—</div>
+        <div class="layer-sub">P/E 本益比 · 銅價 · 大戶持股</div>
+        <div class="layer-bar"><div class="layer-fill" id="auxFill" style="background:var(--text3)"></div></div>
+        <div class="tip-box">輔助觀察指標（0.7x 加權），提供背景脈絡。</div>
+      </div>
+    </div>
+
+    <!-- ── 18 指標 ── -->
+    <div class="section-header">
+      <div class="section-title">☰ 18 項指標詳情</div>
+      <div class="section-badge badge-warn" id="warnBadge">— 項警示</div>
+    </div>
+    <div class="weight-tags">
+      <span><span class="dot dot-core"></span>核心 1.5x</span>
+      <span><span class="dot dot-std"></span>標準 1.0x</span>
+      <span><span class="dot dot-aux"></span>輔助 0.7x</span>
+      <span style="margin-left:8px;font-style:italic">點擊任一格查看詳細數據</span>
+    </div>
+    <div class="indicators-grid" id="indicatorsGrid"></div>
+
+    <!-- ── 歷史圖表 ── -->
+    <div class="section-header">
+      <div class="section-title">📈 歷史趨勢</div>
+    </div>
+    <div class="chart-grid" style="margin-bottom:28px">
+      <div class="chart-card">
+        <h3>雷達分數 · 近 90 日</h3>
+        <canvas id="scoreChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>台股加權 vs VIX 恐慌指數</h3>
+        <canvas id="twiiChart"></canvas>
+      </div>
+    </div>
+
+    <!-- ── 買賣建議 ── -->
+    <div class="section-header">
+      <div class="section-title">💡 買賣建議</div>
+    </div>
+    <div class="tabs" id="recTabs">
+      <button class="tab-btn active" onclick="switchTab('buy-tw',this)">🇹🇼 台股買進</button>
+      <button class="tab-btn" onclick="switchTab('sell-tw',this)">🇹🇼 台股賣出</button>
+      <button class="tab-btn" onclick="switchTab('buy-us',this)">🇺🇸 美股買進</button>
+      <button class="tab-btn" onclick="switchTab('sell-us',this)">🇺🇸 美股賣出</button>
+      <button class="tab-btn" onclick="switchTab('sector',this)">🔄 類股輪動</button>
+      <button class="tab-btn" onclick="switchTab('crypto',this)">₿ 加密貨幣</button>
+    </div>
+
+    <div class="tab-content active" id="tab-buy-tw"><div class="stock-grid" id="grid-buy-tw"></div></div>
+    <div class="tab-content" id="tab-sell-tw"><div class="stock-grid" id="grid-sell-tw"></div></div>
+    <div class="tab-content" id="tab-buy-us"><div class="stock-grid" id="grid-buy-us"></div></div>
+    <div class="tab-content" id="tab-sell-us"><div class="stock-grid" id="grid-sell-us"></div></div>
+    <div class="tab-content" id="tab-sector"><div class="sector-grid" id="grid-sector"></div></div>
+    <div class="tab-content" id="tab-crypto">
+      <div class="fg-box" id="fgBox">
+        <div class="fg-left">
+          <div class="label">加密市場情緒（估算）</div>
+          <div class="value" id="fgScore">—</div>
+          <div class="sub" id="fgLabel">—</div>
+        </div>
+        <div class="fg-right">
+          <div class="gauge-track"><div class="gauge-fill" id="fgFill"></div></div>
+          <div class="gauge-labels" style="margin-top:4px"><span>極度恐懼</span><span>中性</span><span>極度貪婪</span></div>
+        </div>
+      </div>
+      <div class="stock-grid" id="grid-crypto"></div>
+      <div class="chart-card" style="margin-top:14px">
+        <h3>BTC 近 30 日走勢</h3>
+        <canvas id="btcChart"></canvas>
+      </div>
+    </div>
+
+  </div><!-- /mainContent -->
+</div><!-- /container -->
+
+<!-- ── 說明書 Modal ── -->
+<div class="modal-overlay" id="guideOverlay" onclick="closeGuide(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📖 新手說明書</div>
+      <button class="modal-close" onclick="closeGuide()">✕</button>
+    </div>
+    <div class="guide-body">
+
+      <div class="guide-section">
+        <div class="guide-section-title">這個儀表板是做什麼的？</div>
+        <div class="guide-item">
+          <div class="guide-icon">🎯</div>
+          <div class="guide-text">
+            <div class="term">每日市場風險評估</div>
+            <div class="desc">系統每天自動抓取台灣和美國股市的 18 項關鍵數據，分析現在市場的「溫度」，並給出明日漲跌預測與買賣建議。</div>
+            <div class="example">💡 把它想像成「股市天氣預報」，告訴你明天出門要不要帶傘。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-section">
+        <div class="guide-section-title">燈號怎麼看？</div>
+        <table class="signal-table">
+          <tr><th>燈號</th><th>意思</th><th>建議動作</th></tr>
+          <tr><td>🟢 安全觀望</td><td>市場整體健康，風險低</td><td>維持正常持股</td></tr>
+          <tr><td>🟡 黃燈注意</td><td>有部分指標出現異常</td><td>減碼 10–20%，注意停損</td></tr>
+          <tr><td>🟠 橙燈警示</td><td>多個指標同時異常</td><td>減碼 25–35%，嚴格停損</td></tr>
+          <tr><td>🔴 紅燈危險</td><td>系統性風險，歷史上常在大跌前出現</td><td>大幅減碼 50%+</td></tr>
+        </table>
+      </div>
+
+      <div class="guide-section">
+        <div class="guide-section-title">重要數字解釋</div>
+        <div class="guide-item">
+          <div class="guide-icon">📊</div>
+          <div class="guide-text">
+            <div class="term">雷達總分（0–22）</div>
+            <div class="desc">18 個指標加總後的風險分數。分數越高代表市場越危險。</div>
+            <div class="example">0–5 安全 · 6–12 要注意 · 13 以上要保守</div>
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-icon">🎲</div>
+          <div class="guide-text">
+            <div class="term">漲跌機率（%）</div>
+            <div class="desc">根據歷史資料估算明天大跌的機率。不是 100% 準確，但提供參考依據。</div>
+            <div class="example">低於 20% → 低風險 · 高於 60% → 建議保守</div>
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-icon">⚠️</div>
+          <div class="guide-text">
+            <div class="term">嚴重警示（SEVERE）</div>
+            <div class="desc">某個指標的數值達到歷史上少見的極端程度，代表異常嚴重。</div>
+            <div class="example">出現 2 個以上 SEVERE → 系統自動升為紅燈</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-section">
+        <div class="guide-section-title">18 指標簡易說明</div>
+        <div class="guide-item"><div class="guide-icon">1️⃣</div><div class="guide-text"><div class="term">外資期貨淨未平倉</div><div class="desc">外國大機構在台灣期貨市場持有的「看空倉位」數量。<br>數字越負代表外資越看空台股，是大跌的前兆。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">2️⃣</div><div class="guide-text"><div class="term">外資現貨買賣超</div><div class="desc">外國機構今天在台股買了多少、賣了多少。<br>大幅賣超（負數）代表外資出逃，對台股是利空。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">3️⃣</div><div class="guide-text"><div class="term">台幣 + DXY 壓力</div><div class="desc">美元指數（DXY）升高 + 台幣貶值 = 資金流出台灣，不利台股。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">4️⃣</div><div class="guide-text"><div class="term">融資餘額日變化</div><div class="desc">散戶「借錢買股」的金額變化。融資急增代表市場過熱，常在高點前出現。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">5️⃣</div><div class="guide-text"><div class="term">ADL 漲跌家數</div><div class="desc">今天漲的股票數 vs 跌的股票數。跌的家數遠多於漲的，代表市場廣泛走弱。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">6️⃣</div><div class="guide-text"><div class="term">國際技術面 MA20</div><div class="desc">全球主要股市（美、日、韓、歐）有幾個站在 20 日均線上方。站上越少，全球風險越高。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">7️⃣</div><div class="guide-text"><div class="term">台指期動能</div><div class="desc">台股加權指數相對於均線的位置。跌破 MA20 或 MA60 是轉弱訊號。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">8️⃣</div><div class="guide-text"><div class="term">TSM + SOX</div><div class="desc">台積電股價 + 費城半導體指數。這兩個是台股的「領先指標」，跌超過 3% 要注意。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">9️⃣</div><div class="guide-text"><div class="term">VIX 恐慌指數</div><div class="desc">市場的「恐懼溫度計」。VIX 越高代表投資人越害怕。超過 30 通常是市場恐慌。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">🔟</div><div class="guide-text"><div class="term">美債 10Y 殖利率</div><div class="desc">美國 10 年期公債利率。利率太高（超過 5%）會讓資金從股市流出，對股票不利。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">1️⃣1️⃣</div><div class="guide-text"><div class="term">大盤 P/E 本益比</div><div class="desc">整體股市的估值是否偏貴。本益比超過 25 代表股票比較貴，容易修正。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">1️⃣2️⃣</div><div class="guide-text"><div class="term">銅價</div><div class="desc">銅被稱為「博士銅」，與全球經濟高度相關。銅價下跌 + 跌破均線 = 景氣可能轉弱。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">1️⃣3️⃣</div><div class="guide-text"><div class="term">三大法人合計</div><div class="desc">投信、自營商、外資今天合計買賣的金額。大幅賣超代表機構法人在出清持股。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">1️⃣4️⃣</div><div class="guide-text"><div class="term">大盤量比</div><div class="desc">今日成交量 vs 近 5 日平均量。量比 < 0.6 是極度縮量（觀望），> 2.5 爆量異常。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">1️⃣5️⃣</div><div class="guide-text"><div class="term">MA60 乖離率</div><div class="desc">股價偏離 60 日均線的程度。超過 +15% 代表「漲太多」，容易出現回調。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">1️⃣6️⃣</div><div class="guide-text"><div class="term">HY 信用利差</div><div class="desc">高收益（垃圾）債券的利差。利差快速擴大 = 市場對企業違約的擔憂上升，是風險前兆。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">1️⃣7️⃣</div><div class="guide-text"><div class="term">Put/Call 比（權買 vs 加權）</div><div class="desc">看跌選擇權 vs 看漲選擇權的比例。比值 > 1.2 代表市場恐慌情緒高漲。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">1️⃣8️⃣</div><div class="guide-text"><div class="term">TDCC 大戶持股</div><div class="desc">持有大量股票的大股東，其持股比例的變化。大戶減碼代表「聰明錢」在撤退。</div></div></div>
+      </div>
+
+      <div class="guide-section">
+        <div class="guide-section-title">買賣建議怎麼用？</div>
+        <div class="guide-item"><div class="guide-icon">📈</div><div class="guide-text"><div class="term">買進建議</div><div class="desc">同時符合：RSI 在健康區間、股價站上均線、MACD 黃金交叉、量增。<br>不是叫你馬上全部買，建議分批、部分資金介入。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">📉</div><div class="guide-text"><div class="term">賣出建議</div><div class="desc">出現：RSI 超買、跌破均線、MACD 死亡交叉等訊號。<br>建議減碼，不一定要全出。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">🔄</div><div class="guide-text"><div class="term">類股輪動</div><div class="desc">顯示哪個產業類別目前最強、最弱，幫助你判斷資金流向哪裡。</div></div></div>
+        <div class="guide-item"><div class="guide-icon">⚠️</div><div class="guide-text"><div class="term">重要提醒</div><div class="desc">所有建議僅供參考，非投資建議。市場有風險，任何指標都不保證準確，請依自身風險承受能力決策。</div></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── 指標 Detail Modal ── -->
+<div class="modal-overlay" id="detOverlay" onclick="closeDet(event)">
+  <div class="det-modal">
+    <div class="modal-header">
+      <div class="modal-title" id="detTitle">指標詳情</div>
+      <button class="modal-close" onclick="closeDet()">✕</button>
+    </div>
+    <div class="det-body" id="detBody"></div>
+  </div>
+</div>
+
+<script>
+// ── 狀態 ──────────────────────────────────────────────────────────────────
+let dashData = null;
+const sparkCharts = {};
+let scoreChart = null, twiiChart = null, btcChart = null;
+
+// ── 色系 ──────────────────────────────────────────────────────────────────
+const SIGNAL_COLOR = {
+  safe:         '#2E7A56',
+  yellow_light: '#8A6010',
+  yellow_deep:  '#8A6010',
+  orange:       '#A05020',
+  red:          '#A63838',
+};
+
+// ── 啟動 ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', loadDashboard);
+
+async function loadDashboard() {
+  try {
+    const [res, histRes] = await Promise.all([fetch('/api/dashboard'), fetch('/api/history')]);
+    const data = await res.json();
+    const hist = await histRes.json();
+    dashData = data;
+    renderDashboard(data);
+    renderHistory(hist);
+    const [twiiD, vixD] = await Promise.all([fetch('/api/indicator/7').then(r=>r.json()), fetch('/api/indicator/9').then(r=>r.json())]);
+    renderTwiiChart(twiiD, vixD);
+    document.getElementById('loadingDiv').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  } catch(e) {
+    document.getElementById('loadingDiv').innerHTML = `
+      <div style="text-align:center;color:var(--text3)">
+        <div style="font-size:40px;margin-bottom:12px">⚠️</div>
+        <div style="color:var(--red);font-size:14px;margin-bottom:6px">無法載入數據</div>
+        <div style="font-size:12px">${e.message}</div>
+        <div style="margin-top:12px;font-size:11px">請確認 Flask 伺服器正在執行中</div>
+      </div>`;
+  }
+}
+
+// ── 渲染主頁 ──────────────────────────────────────────────────────────────
+function renderDashboard(data) {
+  const s = data.scores, r = data.recs;
+  const ts = s.timestamp ? new Date(s.timestamp).toLocaleString('zh-TW') : '未知';
+  document.getElementById('lastUpdate').textContent = `更新：${ts}`;
+
+  // 燈號
+  const hero = document.getElementById('signalHero');
+  hero.className = `signal-hero ${s.signal}`;
+  document.getElementById('signalTitle').textContent = s.signal_text;
+  document.getElementById('signalTitle').style.color = SIGNAL_COLOR[s.signal] || '#28221A';
+
+  // 白話說明
+  const plainMap = {
+    safe:         '目前市場整體健康，主要指標都在正常範圍內。<b>可以維持正常持股比例</b>，但仍建議設好停損點。',
+    yellow_light: '有幾個指標開始出現異常，市場進入觀察期。<b>建議小幅減碼 10–20%</b>，並留意接下來的變化。',
+    yellow_deep:  '多個指標同時轉壞，風險正在上升。<b>建議分批減碼 30–40%</b>，將部分資金移到現金或保守標的。',
+    orange:       '風險指標已達警戒水位，歷史上類似情況常在大跌前數天出現。<b>建議積極減碼 25–35%</b>，嚴格執行停損。',
+    red:          '多個嚴重指標同步觸發。<b>建議大幅保守，減碼 50% 以上</b>，增加現金或公債比例，靜待市場恢復穩定。',
+  };
+  document.getElementById('signalSubtitle').textContent = s.action;
+  document.getElementById('signalPlain').innerHTML = plainMap[s.signal] || '';
+
+  const sb = document.getElementById('strengthBadge');
+  sb.textContent = s.signal_strength;
+  sb.className = `strength-badge strength-${s.signal_strength}`;
+
+  document.getElementById('crashLabel').textContent = `訊號強度 ${s.signal_strength}`;
+
+  // 數字摘要
+  const sc = document.getElementById('totalScore');
+  sc.textContent = `${s.total_weighted} / 22`;
+  sc.className = 'summary-value ' + (s.total_weighted >= 13 ? 'c-red' : s.total_weighted >= 6 ? 'c-amber' : 'c-green');
+
+  const prob = s.crash_prob;
+  const probEl = document.getElementById('crashProb');
+  probEl.textContent = `${prob}%`;
+  probEl.className = 'summary-value ' + (prob >= 60 ? 'c-red' : prob >= 35 ? 'c-amber' : 'c-green');
+  document.getElementById('probSub').textContent = prob >= 60 ? '建議保守' : prob >= 35 ? '保持觀察' : '風險偏低';
+
+  const sev = document.getElementById('severeCount');
+  sev.textContent = `${s.severe_count} 個`;
+  sev.className = 'summary-value ' + (s.severe_count >= 2 ? 'c-red' : s.severe_count === 1 ? 'c-amber' : 'c-green');
+  document.getElementById('severeSub').textContent = s.severe_count ? `⚠ ${s.severe_list?.join('、')}` : '目前無嚴重異常';
+
+  const mom = document.getElementById('momentumVal');
+  mom.textContent = s.momentum_label;
+  mom.className = 'summary-value ' + (s.momentum_label === '惡化' ? 'c-red' : s.momentum_label === '改善' ? 'c-green' : 'c-amber');
+  document.getElementById('momentumSub').textContent = (s.momentum_history || []).join(' → ');
+
+  // 機率計
+  const pn = document.getElementById('probGaugeNum');
+  pn.textContent = `${s.total_weighted} / 22`;
+  pn.style.color = SIGNAL_COLOR[s.signal];
+  document.getElementById('probGaugeLabel').textContent = s.signal_text;
+  const gf = document.getElementById('gaugeFill');
+  gf.style.width = `${Math.min(s.total_weighted / 22 * 100, 100)}%`;
+  gf.style.background = SIGNAL_COLOR[s.signal];
+
+  // 層分數
+  document.getElementById('coreScore').textContent = `${s.core_score} / ${s.core_max}`;
+  document.getElementById('stdScore').textContent  = `${s.std_score} / ${s.std_max}`;
+  document.getElementById('coreFill').style.width = `${Math.min(s.core_score / s.core_max * 100, 100)}%`;
+  document.getElementById('stdFill').style.width  = `${Math.min(s.std_score / s.std_max * 100, 100)}%`;
+
+  const peInd = (s.indicators || []).find(i => i.id === 11);
+  document.getElementById('peLevel').textContent = peInd ? (peInd.score > 0 ? '略高' : '合理') : '—';
+
+  // Notice
+  if (s.signal === 'red' || s.severe_count >= 2) {
+    const nb = document.getElementById('noticeBox');
+    nb.style.display = 'block';
+    nb.textContent = `注意：系統偵測到 ${s.severe_count} 個 SEVERE 等級警示（${(s.severe_list||[]).join('、')}），訊號強度升級至 ${s.signal_strength}。即使大盤看似平靜，也建議依照上方建議採取保守行動。`;
+  }
+
+  // 警示數
+  const warnCount = (s.indicators||[]).filter(i=>i.status!=='safe').length;
+  document.getElementById('warnBadge').textContent = `▲ ${warnCount} 項警示`;
+
+  // 18 指標
+  renderIndicators(s.indicators || []);
+
+  // 買賣建議
+  renderRecs(r);
+}
+
+// ── 白話翻譯 ─────────────────────────────────────────────────────────────
+const IND_PLAIN = {
+  1:  (s) => s===0 ? '外資看多，偏多訊號' : s===1 ? '外資略偏空，需觀察' : '外資大量做空，警戒',
+  2:  (s) => s===0 ? '外資持續買進台股' : s===1 ? '外資小幅賣超' : '外資大賣，資金出逃',
+  3:  (s) => s===0 ? '美元穩定，台幣無壓力' : '美元走強，對台股不利',
+  4:  (s) => s===0 ? '融資健康，市場未過熱' : '融資增加，警惕市場過熱',
+  5:  (s) => s===0 ? '漲跌比健康，多頭格局' : '下跌家數多，市場走弱',
+  6:  (s) => s===0 ? '全球股市多數健康' : s===1 ? '部分市場轉弱' : '全球股市廣泛走弱',
+  7:  (s) => s===0 ? '台股站穩均線，偏多' : '台股跌破均線，轉弱',
+  8:  (s) => s===0 ? 'TSM/半導體表現穩健' : 'TSM/半導體走弱，注意台股',
+  9:  (s) => s===0 ? '市場平靜，恐慌低' : s===1 ? '市場有些緊張' : '市場極度恐慌',
+  10: (s) => s===0 ? '美債利率正常範圍' : '美債利率偏高，壓縮估值',
+  11: (s) => s===0 ? '大盤估值合理' : '大盤估值偏高',
+  12: (s) => s===0 ? '銅價穩定，景氣無憂' : '銅價下跌，景氣可能轉弱',
+  13: (s) => s===0 ? '法人整體買超' : '法人賣超，謹慎觀察',
+  14: (s) => s===0 ? '成交量正常' : '量能異常，需留意',
+  15: (s) => s===0 ? '漲幅合理，未過熱' : '漲太多，注意回調風險',
+  16: (s) => s===0 ? '信用市場穩定' : '信用風險上升，注意',
+  17: (s) => s===0 ? '選擇權市場情緒中性' : '看空情緒升溫',
+  18: (s) => s===0 ? '大戶持股穩定' : '大戶減碼，注意資金動向',
+};
+const SOURCE_MAP = {1:'taifex',2:'twse',3:'yahoo',4:'twse',5:'twse',6:'yahoo',7:'yahoo',8:'yahoo',9:'yahoo',10:'yahoo/fred',11:'twse',12:'yahoo',13:'twse',14:'yahoo',15:'yahoo',16:'fred/hyg',17:'yahoo options',18:'tdcc'};
+
+function renderIndicators(inds) {
+  const grid = document.getElementById('indicatorsGrid');
+  grid.innerHTML = inds.map(ind => {
+    const cls  = ind.status === 'danger' ? 'danger' : ind.status === 'warn' ? 'warn' : '';
+    const dot  = ind.class === 'core' ? 'dot-core' : ind.class === 'standard' ? 'dot-std' : 'dot-aux';
+    const pill = `pill-${ind.score}`;
+    const plain = IND_PLAIN[ind.id] ? IND_PLAIN[ind.id](ind.score) : '';
+    return `<div class="ind-card ${cls}" onclick="showDet(${ind.id})">
+      ${ind.severity==='SEVERE' ? '<div class="severe-tag">SEVERE</div>' : ''}
+      <div class="ind-top">
+        <div class="ind-num"><span class="dot ${dot}"></span>${ind.id}.</div>
+        <div class="score-pill ${pill}">${ind.score} 分</div>
+      </div>
+      <div class="ind-name">${ind.name}</div>
+      <div class="ind-detail">${ind.detail}</div>
+      ${plain ? `<div class="ind-plain">→ ${plain}</div>` : ''}
+      <div class="ind-source">[${SOURCE_MAP[ind.id]||'—'}]</div>
+    </div>`;
+  }).join('');
+}
+
+// ── 圖表 ─────────────────────────────────────────────────────────────────
+const CHART_OPTS = {
+  responsive:true, maintainAspectRatio:true,
+  plugins:{ legend:{ labels:{ color:'#8A8278', font:{size:10} } } },
+  scales:{
+    x:{ ticks:{color:'#8A8278', maxTicksLimit:8}, grid:{color:'rgba(180,168,152,.35)'} },
+    y:{ ticks:{color:'#5A5048'}, grid:{color:'rgba(180,168,152,.35)'} },
+  }
+};
+
+function renderHistory(hist) {
+  if(!hist?.length) return;
+  const ctx = document.getElementById('scoreChart').getContext('2d');
+  if(scoreChart) scoreChart.destroy();
+  scoreChart = new Chart(ctx,{
+    type:'line',
+    data:{ labels:hist.map(h=>h.date), datasets:[
+      {label:'雷達分數', data:hist.map(h=>h.total_weighted), borderColor:'#3458A0', backgroundColor:'rgba(52,88,160,.1)', fill:true, tension:.4, pointRadius:2},
+      {label:'大跌機率%', data:hist.map(h=>h.crash_prob), borderColor:'#A63838', backgroundColor:'rgba(166,56,56,.06)', fill:false, tension:.4, pointRadius:2, yAxisID:'y2'},
+    ]},
+    options:{...CHART_OPTS, scales:{...CHART_OPTS.scales, y2:{position:'right', ticks:{color:'#A63838'}, grid:{display:false}}}}
+  });
+}
+function renderTwiiChart(twii, vix) {
+  const ctx = document.getElementById('twiiChart').getContext('2d');
+  if(twiiChart) twiiChart.destroy();
+  twiiChart = new Chart(ctx,{
+    type:'line',
+    data:{ labels:twii.history_dates||[], datasets:[
+      {label:'台股加權', data:twii.history||[], borderColor:'#2E7A56', backgroundColor:'rgba(46,122,86,.1)', fill:true, tension:.4, pointRadius:2},
+      {label:'VIX',     data:(vix.history||[]).slice(-(twii.history||[]).length), borderColor:'#A63838', fill:false, tension:.4, pointRadius:2, yAxisID:'y2'},
+    ]},
+    options:{...CHART_OPTS, scales:{...CHART_OPTS.scales, y2:{position:'right', ticks:{color:'#A63838'}, grid:{display:false}}}}
+  });
+}
+
+// ── 買賣建議 ─────────────────────────────────────────────────────────────
+function renderRecs(r) {
+  renderStockGrid('buy-tw',  r.buy_tw  || [], 'buy');
+  renderStockGrid('sell-tw', r.sell_tw || [], 'sell');
+  renderStockGrid('buy-us',  r.buy_us  || [], 'buy');
+  renderStockGrid('sell-us', r.sell_us || [], 'sell');
+  renderSectorGrid(r.sector_rotation || []);
+  renderCrypto(r.crypto_signals || [], r.fear_greed || {});
+}
+
+function rc(v){ return v>0?'ret-up':v<0?'ret-down':'ret-flat'; }
+function rs(v){ if(v==null)return '—'; return (v>=0?'+':'')+v.toFixed(2)+'%'; }
+
+function renderStockGrid(id, stocks, type) {
+  const grid = document.getElementById(`grid-${id}`);
+  Object.keys(sparkCharts).filter(k=>k.startsWith(id+'_')).forEach(k=>{ sparkCharts[k].destroy(); delete sparkCharts[k]; });
+  if(!stocks.length){
+    grid.innerHTML=`<div style="color:var(--text3);padding:28px;text-align:center;font-size:13px">目前無${type==='buy'?'買入':'賣出'}建議</div>`;
+    return;
+  }
+  grid.innerHTML = stocks.map((s,i)=>{
+    const score = type==='buy' ? s.buy_score : s.sell_score;
+    const ac = (s.action==='可買進'||s.action==='分批布局') ? 'action-buy' : s.action==='建議出場' ? 'action-sell' : 'action-reduce';
+    const cid = `spark_${id}_${i}`;
+    return `<div class="stock-card ${type}-card">
+      <div class="stock-top">
+        <div><div class="stock-name">${s.name||s.ticker}</div><div class="stock-ticker">${s.ticker}${s.sector?' · '+s.sector:''}</div></div>
+        <div class="action-badge ${ac}">${s.action}</div>
+      </div>
+      <div class="stock-price">$${s.price!=null?s.price.toLocaleString():'—'}</div>
+      <div class="stock-meta">RSI ${s.rsi!=null?s.rsi.toFixed(1):'—'} · 信心分數 ${score??'—'}/100</div>
+      <div class="stock-sparkline"><canvas id="${cid}"></canvas></div>
+      <div class="stock-returns">
+        <span class="${rc(s.ret5d)}">5日 ${rs(s.ret5d)}</span>
+        <span class="${rc(s.ret20d)}">20日 ${rs(s.ret20d)}</span>
+        <span class="${rc(s.ret60d)}">60日 ${rs(s.ret60d)}</span>
+      </div>
+      <div class="score-bar"><div class="score-fill-${type}" style="width:${score??0}%"></div></div>
+      <div class="reason-box">${s.reason||''}</div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>{
+    stocks.forEach((s,i)=>{
+      if(!s.history?.length) return;
+      const el = document.getElementById(`spark_${id}_${i}`);
+      if(!el) return;
+      const color = type==='buy' ? '#2E7A56' : '#A63838';
+      const ctx = el.getContext('2d');
+      sparkCharts[`spark_${id}_${i}`] = new Chart(ctx,{
+        type:'line',
+        data:{ labels:s.history_dates, datasets:[{
+          data:s.history, borderColor:color,
+          backgroundColor:color+'22',
+          fill:true, tension:.4, pointRadius:0, borderWidth:1.5,
+        }]},
+        options:{
+          responsive:true, maintainAspectRatio:false, animation:false,
+          plugins:{ legend:{display:false}, tooltip:{ callbacks:{
+            label: c=>'$'+c.parsed.y.toLocaleString(), title: c=>c[0].label
+          }}},
+          scales:{ x:{display:false}, y:{display:false} }
+        }
+      });
+    });
+  },50);
+}
+
+function renderSectorGrid(sectors) {
+  const grid = document.getElementById('grid-sector');
+  if(!sectors.length){ grid.innerHTML='<div style="color:var(--text3);padding:20px">數據載入中…</div>'; return; }
+  grid.innerHTML = sectors.map(s=>{
+    const sc = s.score>=65?'var(--green)':s.score>=45?'var(--amber)':'var(--red)';
+    const sClass = s.suggestion==='加碼'?'sugg-add':s.suggestion==='觀望'?'sugg-watch':'sugg-reduce';
+    return `<div class="sector-card">
+      <div class="sector-rank">#${s.rank} ${s.trend}</div>
+      <div class="sector-name">${s.sector}</div>
+      <div class="sector-score-wrap"><div class="sector-score" style="color:${sc}">${s.score}</div><div class="sector-max">/ 100</div></div>
+      <div class="sector-bar"><div class="sector-fill" style="width:${s.score}%;background:${sc}"></div></div>
+      <div class="sector-sugg ${sClass}">▶ ${s.suggestion}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── 加密貨幣 ─────────────────────────────────────────────────────────────
+function renderCrypto(signals, fg) {
+  const score = fg.score??50;
+  const fgColor = score>=75?'#A63838':score>=55?'#8A6010':score>=45?'#5A5048':score>=25?'#3458A0':'#604E9A';
+  document.getElementById('fgScore').textContent = score;
+  document.getElementById('fgScore').style.color = fgColor;
+  document.getElementById('fgLabel').textContent = fg.label??'中性';
+  document.getElementById('fgLabel').style.color = fgColor;
+  document.getElementById('fgFill').style.cssText = `width:${score}%;background:${fgColor};height:100%;border-radius:3px;transition:width .8s ease`;
+
+  const grid = document.getElementById('grid-crypto');
+  if(!signals.length){ grid.innerHTML='<div style="color:var(--text3);padding:20px">數據載入中…</div>'; return; }
+  grid.innerHTML = signals.map(c=>{
+    const bc = c.action_class==='buy'?'var(--green)':c.action_class==='sell'?'var(--red)':'var(--border2)';
+    const ac = c.action_class==='buy'?'action-buy':c.action_class==='sell'?'action-sell':'';
+    const ti = c.trend==='上升趨勢'?'📈':c.trend==='下降趨勢'?'📉':'↔️';
+    return `<div class="stock-card" style="border-left:2px solid ${bc}">
+      <div class="stock-top">
+        <div><div class="stock-name">${c.name}</div><div class="stock-ticker">${c.ticker}</div></div>
+        <div class="action-badge ${ac}">${c.action}</div>
+      </div>
+      <div class="stock-price">$${c.price!=null?c.price.toLocaleString():'—'}</div>
+      <div class="stock-returns">
+        <span class="${rc(c.chg_1d)}">1日 ${rs(c.chg_1d)}</span>
+        <span class="${rc(c.chg_7d)}">7日 ${rs(c.chg_7d)}</span>
+        <span class="${rc(c.chg_30d)}">30日 ${rs(c.chg_30d)}</span>
+      </div>
+      <div class="reason-box">${ti} ${c.trend} · RSI ${c.rsi} ${c.rsi_label} · MA20乖離 ${c.bias_ma20>=0?'+':''}${c.bias_ma20}%</div>
+    </div>`;
+  }).join('');
+
+  const btc = signals.find(s=>s.name==='Bitcoin');
+  if(btc?.history?.length){
+    const ctx = document.getElementById('btcChart').getContext('2d');
+    if(btcChart) btcChart.destroy();
+    btcChart = new Chart(ctx,{
+      type:'line',
+      data:{ labels:btc.history_dates, datasets:[{label:'BTC-USD', data:btc.history, borderColor:'#8A6010', backgroundColor:'rgba(138,96,16,.1)', fill:true, tension:.4, pointRadius:2}]},
+      options:{...CHART_OPTS, scales:{...CHART_OPTS.scales, y:{ticks:{color:'#8A6010', callback:v=>'$'+v.toLocaleString()}, grid:{color:'rgba(180,168,152,.35)'}}}}
+    });
+  }
+}
+
+// ── 說明書 ────────────────────────────────────────────────────────────────
+function openGuide(){ document.getElementById('guideOverlay').classList.add('open'); }
+function closeGuide(e){ if(!e||e.target===document.getElementById('guideOverlay')) document.getElementById('guideOverlay').classList.remove('open'); }
+
+// ── 指標 Detail ───────────────────────────────────────────────────────────
+async function showDet(idx) {
+  document.getElementById('detOverlay').classList.add('open');
+  document.getElementById('detTitle').textContent = `指標 ${idx} 詳情`;
+  document.getElementById('detBody').innerHTML = '<div style="color:var(--text3);padding:16px">載入中…</div>';
+  try {
+    const [dash, det] = await Promise.all([fetch('/api/dashboard').then(r=>r.json()), fetch(`/api/indicator/${idx}`).then(r=>r.json())]);
+    const ind = (dash.scores.indicators||[]).find(i=>i.id===idx);
+    const statusLbl = ind?.status==='danger'?'🔴 危險':ind?.status==='warn'?'🟡 警示':'🟢 安全';
+    let html = '';
+    if(ind) html += `<div style="padding:12px 14px;background:var(--card3);border-radius:8px;margin-bottom:14px">
+      <div style="font-size:16px;font-weight:800;margin-bottom:4px;color:var(--text)">${ind.name}</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px">${ind.detail}</div>
+      <div style="font-size:12px">${statusLbl} · 分數 ${ind.score}/${ind.max_score} · 權重 ${ind.weight}x</div>
+      ${IND_PLAIN[idx]?`<div style="font-size:11px;color:var(--text3);margin-top:6px;font-style:italic">→ ${IND_PLAIN[idx](ind.score)}</div>`:''}
+    </div>`;
+    html += Object.entries(det).filter(([k])=>k!=='history'&&k!=='history_dates'&&k!=='details').map(([k,v])=>`
+      <div class="kv-row"><span class="kv-k">${k}</span><span class="kv-v">${JSON.stringify(v)}</span></div>`).join('');
+    if(det.details) {
+      html += '<div style="margin:10px 0 4px;font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">各市場詳情</div>';
+      html += Object.entries(det.details).map(([m,d])=>`
+        <div class="kv-row"><span class="kv-k">${m}</span><span class="kv-v">${d.price} ${d.above?'✓ MA20上方':'✗ MA20下方'}</span></div>`).join('');
+    }
+    document.getElementById('detBody').innerHTML = html;
+  } catch(e) { document.getElementById('detBody').innerHTML = `<div style="color:var(--red)">${e.message}</div>`; }
+}
+function closeDet(e){ if(!e||e.target===document.getElementById('detOverlay')) document.getElementById('detOverlay').classList.remove('open'); }
+
+// ── Tab ───────────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById(`tab-${name}`).classList.add('active');
+}
+
+// ── 手動更新 ──────────────────────────────────────────────────────────────
+async function manualRefresh() {
+  const btn = document.getElementById('btnRefresh');
+  btn.disabled = true; btn.textContent = '⏳ 更新中…';
+  try {
+    await fetch('/api/refresh',{method:'POST'});
+    await loadDashboard();
+    btn.textContent = '✅ 完成';
+  } catch(e) { btn.textContent = '❌ 失敗'; }
+  setTimeout(()=>{ btn.disabled=false; btn.textContent='🔄 更新數據'; }, 3000);
+}
+</script>
+</body>
+</html>
