@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="鄭珽 Ting Cheng｜攝影師、影片剪輯師、音樂專訪製作人。音你而在 Podcast、旅拍攝影、國際攝影獎得主。">
+  <meta name="keywords" content="鄭珽, Ting Cheng, 攝影師, 音你而在, 音樂專訪, 剪輯師, Podcast, 台灣攝影師, 知識衛星, 知識迷航">
+  <meta property="og:title" content="鄭珽 Ting Cheng｜攝影 · 影片 · 音樂">
+  <meta property="og:description" content="攝影師、影片剪輯師、音樂專訪製作人。音你而在 Podcast。">
+  <meta property="og:type" content="website">
+  <title>鄭珽 Ting Cheng｜攝影 · 影片 · 音樂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--black:#0a0a0a;--off-black:#111;--dark:#1a1a1a;--mid:#2e2e2e;--border:#2a2a2a;--text-primary:#f0ede8;--text-secondary:#9a948a;--text-muted:#5c5852;--gold:#c8a96e;--gold-light:#e0c990;--white:#f8f5f0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--text-primary);font-family:'Inter',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,0.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(200,169,110,0.08)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1rem;color:var(--text-primary);text-decoration:none;letter-spacing:0.05em}
+    .nav-links{display:flex;gap:1.6rem;list-style:none}
+    .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;transition:color .3s}
+    .nav-links a:hover{color:var(--gold)}
+    .nav-social{display:flex;gap:1rem}
+    .nav-social a{color:var(--text-muted);text-decoration:none;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;transition:color .3s}
+    .nav-social a:hover{color:var(--gold)}
+    #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 2.5rem 6rem;position:relative;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 40%,rgba(200,169,110,.07) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 20% 70%,rgba(200,169,110,.04) 0%,transparent 60%)}
+    .hero-line{position:absolute;top:0;bottom:0;left:55%;width:1px;background:linear-gradient(to bottom,transparent 0%,rgba(200,169,110,.15) 30%,rgba(200,169,110,.15) 70%,transparent 100%)}
+    .hero-content{position:relative;z-index:1;max-width:700px}
+    .hero-eyebrow{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+    h1{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,8vw,7rem);font-weight:400;line-height:1.0;margin-bottom:.5rem;color:var(--white)}
+    h1 em{font-style:italic;color:var(--gold-light)}
+    .hero-subtitle{font-family:'Noto Serif TC',serif;font-size:1rem;color:var(--text-secondary);margin-bottom:2.5rem;font-weight:300}
+    .hero-desc{font-size:.85rem;color:var(--text-muted);max-width:400px;line-height:1.9;border-left:1px solid var(--gold);padding-left:1.25rem}
+    .hero-scroll{position:absolute;bottom:2.5rem;right:2.5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--text-muted);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase}
+    .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite}
+    @keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+    section{padding:6rem 2.5rem}
+    .section-label{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:3rem;display:flex;align-items:center;gap:1rem}
+    .section-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--gold);opacity:.4}
+    h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:400;color:var(--white);line-height:1.15}
+    #about{background:var(--off-black)}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;max-width:1100px}
+    .about-text h2{margin-bottom:1.5rem}
+    .about-text p{font-size:.9rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.9;font-family:'Noto Serif TC',serif;font-weight:300}
+    .awards-list{margin-top:2.5rem;display:flex;flex-direction:column;gap:1rem}
+    .award-item{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+    .award-year{font-size:.65rem;color:var(--gold);letter-spacing:.1em;padding-top:.15rem;min-width:36px}
+    .award-name{font-size:.8rem;color:var(--text-secondary)}
+    .award-tier{font-size:.7rem;color:var(--text-muted)}
+    .skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .skill-card{padding:1.5rem;border:1px solid var(--border);background:var(--dark)}
+    .skill-card-title{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+    .skill-card-body{font-size:.8rem;color:var(--text-secondary);line-height:1.7;font-family:'Noto Serif TC',serif}
+    #photography{background:var(--black)}
+    .photo-max{max-width:1100px}
+    .photo-category{margin-bottom:3.5rem}
+    .photo-category-title{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+    .photo-grid{display:grid;gap:.4rem}
+    .photo-grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    .photo-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .photo-grid.cols-5{grid-template-columns:repeat(5,1fr)}
+    .photo-item{overflow:hidden;background:var(--dark)}
+    .photo-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease,opacity .4s ease;opacity:.82}
+    .photo-item:hover img{transform:scale(1.04);opacity:1}
+    .photo-item.landscape{aspect-ratio:16/9}
+    .photo-item.portrait{aspect-ratio:9/16}
+    #video{background:var(--off-black)}
+    .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:1100px}
+    .video-card{background:var(--dark);text-decoration:none;display:block}
+    .video-thumb{aspect-ratio:16/9;position:relative;overflow:hidden;cursor:pointer}
+    .video-thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:.75;transition:opacity .3s}
+    .video-thumb:hover img{opacity:.95}
+    .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;border:1.5px solid rgba(200,169,110,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);transition:all .3s;pointer-events:none}
+    .play-btn::after{content:'';width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent var(--gold);margin-left:2px}
+    .video-thumb:hover .play-btn{background:rgba(200,169,110,.18);border-color:var(--gold);transform:translate(-50%,-50%) scale(1.1)}
+    .video-info{padding:1rem 1rem 1.25rem}
+    .video-type{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+    .video-title{font-family:'Noto Serif TC',serif;font-size:.82rem;color:var(--text-primary);line-height:1.5;margin-bottom:.25rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .video-dur{font-size:.68rem;color:var(--text-muted)}
+    #tingmusic{background:var(--black)}
+    #tingcheng{background:var(--off-black)}
+    .yt-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;max-width:1100px;align-items:start}
+    .yt-info h2{margin-bottom:1rem}
+    .yt-info p{font-size:.88rem;color:var(--text-secondary);font-family:'Noto Serif TC',serif;line-height:1.9;margin-bottom:1.2rem}
+    .yt-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border:1px solid var(--gold);color:var(--gold);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:all .3s}
+    .yt-btn:hover{background:var(--gold);color:var(--black)}
+    .yt-thumb-main{aspect-ratio:16/9;width:100%;overflow:hidden;position:relative;cursor:pointer;display:block}
+    .yt-thumb-main img{width:100%;height:100%;object-fit:cover;opacity:.8;transition:opacity .3s}
+    .yt-thumb-main:hover img{opacity:1}
+    .yt-grid-small{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.5rem}
+    .yt-small{aspect-ratio:16/9;overflow:hidden;cursor:pointer;position:relative;display:block;background:var(--mid)}
+    .yt-small img{width:100%;height:100%;object-fit:cover;opacity:.65;transition:opacity .3s}
+    .yt-small:hover img{opacity:1}
+    .yt-more{display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:.72rem;color:var(--gold);letter-spacing:.05em}
+    #filter{background:var(--dark)}
+    .filter-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1100px;align-items:start}
+    .filter-info h2{margin-bottom:1rem}
+    .filter-info p{font-size:.88rem;color:var(--text-secondary);font-family:'Noto Serif TC',serif;line-height:1.9;margin-bottom:1rem}
+    .filter-shots{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
+    .filter-shot{aspect-ratio:9/16;overflow:hidden;background:var(--mid)}
+    .filter-shot img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .3s}
+    .filter-shot:hover img{opacity:1}
+    #mv{background:var(--off-black)}
+    .mv-block{margin-bottom:3rem;max-width:1100px}
+    .mv-block-title{font-size:.75rem;letter-spacing:.15em;color:var(--gold);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+    #podcast{background:var(--black)}
+    .podcast-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;max-width:1100px;align-items:start}
+    .podcast-info h2{margin-bottom:1rem}
+    .podcast-info p{font-size:.88rem;color:var(--text-secondary);font-family:'Noto Serif TC',serif;line-height:1.9;margin-bottom:1.2rem}
+    .podcast-embed{overflow:hidden}
+    .podcast-embed iframe{display:block;width:100%;border:none}
+    .listen-btns{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem}
+    .listen-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border:1px solid var(--gold);color:var(--gold);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:all .3s}
+    .listen-btn:hover{background:var(--gold);color:var(--black)}
+    .listen-btn.sec{border-color:var(--border);color:var(--text-secondary)}
+    .listen-btn.sec:hover{border-color:var(--gold);color:var(--gold);background:transparent}
+    #resume{background:var(--off-black)}
+    .resume-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:1100px}
+    .timeline{position:relative;padding-left:2rem}
+    .timeline::before{content:'';position:absolute;left:0;top:.5rem;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold) 0%,var(--border) 100%)}
+    .tl-group{margin-bottom:2.5rem}
+    .tl-year{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;position:relative}
+    .tl-year::before{content:'';position:absolute;left:-2.4rem;top:50%;transform:translateY(-50%);width:6px;height:6px;border:1px solid var(--gold);background:var(--off-black);border-radius:50%}
+    .tl-items{display:flex;flex-direction:column;gap:.5rem}
+    .tl-item{font-size:.8rem;color:var(--text-secondary);font-family:'Noto Serif TC',serif;line-height:1.8}
+    .tl-item a{color:var(--gold);text-decoration:none}
+    .tl-item a:hover{text-decoration:underline}
+    #contact{background:var(--black);text-align:center;padding:8rem 2.5rem}
+    .contact-inner{max-width:600px;margin:0 auto}
+    .contact-inner h2{margin-bottom:1rem}
+    .contact-sub{font-size:.88rem;color:var(--text-muted);font-family:'Noto Serif TC',serif;margin-bottom:3rem;line-height:1.8;margin-top:1rem}
+    .contact-links{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+    .contact-link{display:flex;flex-direction:column;align-items:center;gap:.5rem;text-decoration:none;transition:all .3s}
+    .contact-link-icon{width:52px;height:52px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .3s}
+    .contact-link:hover .contact-link-icon{border-color:var(--gold);background:rgba(200,169,110,.08)}
+    .contact-link-label{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)}
+    .contact-link svg{width:20px;height:20px;fill:var(--text-secondary);transition:fill .3s}
+    .contact-link:hover svg{fill:var(--gold)}
+    footer{padding:2rem 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--off-black)}
+    .footer-copy{font-size:.7rem;color:var(--text-muted)}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--text-muted)}
+    @media(max-width:900px){
+      nav{padding:1rem 1.25rem}
+      .nav-links{display:none}
+      section{padding:4rem 1.25rem}
+      #hero{padding:0 1.25rem 4rem}
+      .about-grid,.yt-layout,.filter-layout,.podcast-layout,.resume-grid{grid-template-columns:1fr;gap:2.5rem}
+      .video-grid{grid-template-columns:1fr 1fr}
+      .photo-grid.cols-5{grid-template-columns:repeat(3,1fr)}
+      .filter-shots{grid-template-columns:repeat(3,1fr)}
+      .skills-grid{grid-template-columns:1fr}
+      footer{flex-direction:column;gap:.75rem;text-align:center}
+      .hero-line{display:none}
+    }
+    @media(max-width:600px){
+      .video-grid{grid-template-columns:1fr}
+      .photo-grid.cols-2{grid-template-columns:1fr}
+      .photo-grid.cols-3{grid-template-columns:1fr 1fr}
+      .yt-grid-small{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Ting Cheng</a>
+  <ul class="nav-links">
+    <li><a href="#about">關於</a></li>
+    <li><a href="#photography">攝影</a></li>
+    <li><a href="#video">影片</a></li>
+    <li><a href="#tingmusic">挺音樂</a></li>
+    <li><a href="#tingcheng">專訪</a></li>
+    <li><a href="#filter">濾鏡&amp;MV</a></li>
+    <li><a href="#podcast">Podcast</a></li>
+    <li><a href="#resume">經歷</a></li>
+    <li><a href="#contact">聯絡</a></li>
+  </ul>
+  <div class="nav-social">
+    <a href="https://www.instagram.com/ting._1127/" target="_blank" rel="noopener">IG</a>
+    <a href="https://www.youtube.com/channel/UCCmDFLZDMVERUMnSxlpxJ3g" target="_blank" rel="noopener">YT</a>
+    <a href="https://open.spotify.com/show/7bMOOI4AvCK40fSS8jsgi4" target="_blank" rel="noopener">Spotify</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">攝影 · 影片 · 音樂</p>
+    <h1>Ting<br><em>Cheng</em></h1>
+    <p class="hero-subtitle">鄭珽</p>
+    <p class="hero-desc">攝影師、影片剪輯師、內容創作者。<br>國際攝影獎得主。「音你而在」節目主持人。<br>用鏡頭記錄音樂、旅途、與生命的流動。</p>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
+</section>
+
+<section id="about">
+  <div class="section-label">關於我 / About</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2>攝影師<br>與創作者</h2>
+      <p>畢業於流行音樂產業系，長年深耕獨立音樂圈與影像創作。從幕後工作人員到內容創作者，走過演唱會、時裝週、MV 現場，累積了扎實的影像與音樂製作底蘊。</p>
+      <p>2022 年在國際攝影舞台嶄露頭角，於巴黎 PX3、紐約 NYX、莫斯科 MIFA、布達佩斯等大賽獲獎，作品風格融合人文溫度與旅途孤寂。</p>
+      <div class="awards-list">
+        <div class="award-item"><span class="award-year">2022</span><div><div class="award-name">法國巴黎 PX3 國際攝影獎</div><div class="award-tier">銅獎</div></div></div>
+        <div class="award-item"><span class="award-year">2022</span><div><div class="award-name">NYX Awards 國際攝影獎</div><div class="award-tier">金獎 &amp; 銀獎</div></div></div>
+        <div class="award-item"><span class="award-year">2022</span><div><div class="award-name">莫斯科國際攝影大賽 MIFA</div><div class="award-tier">榮譽獎</div></div></div>
+        <div class="award-item"><span class="award-year">2022</span><div><div class="award-name">布達佩斯國際攝影大賽</div><div class="award-tier">銀獎 &amp; 榮譽獎</div></div></div>
+        <div class="award-item"><span class="award-year">2022</span><div><div class="award-name">IPA 國際攝影獎</div><div class="award-tier">Official Selection</div></div></div>
+      </div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card"><div class="skill-card-title">攝影</div><div class="skill-card-body">旅拍、活動攝影、人像、時裝週、演唱會、Instagram 濾鏡製作</div></div>
+      <div class="skill-card"><div class="skill-card-title">影片剪輯</div><div class="skill-card-body">YouTube 頻道製作、線上課程影片、品牌影片、Podcast 攝影剪輯</div></div>
+      <div class="skill-card"><div class="skill-card-title">音樂訪談</div><div class="skill-card-body">「音你而在」節目興趣製作、Podcast 主持、與獨立音樂人深度對談（個人興趣）</div></div>
+      <div class="skill-card"><div class="skill-card-title">製作統籌</div><div class="skill-card-body">導演、課程製作統籌、音樂祭行政統籌、活動企劃與藝人接洽</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="photography">
+  <div class="section-label">攝影作品 / Photography</div>
+  <div class="photo-max">
+
+    <div class="photo-category">
+      <div class="photo-category-title">臺北時裝週 Taipei Fashion Week 2021 · 2022</div>
+      <div class="photo-grid cols-2">
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_7b50966ed56c4e43bd433d2bd60d1b89~mv2.jpg" alt="2021台北時裝週" loading="lazy"></div>
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_3b37b53cf3f54fc1930c73105aa6567c~mv2.jpg" alt="2021台北時裝週" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="photo-category">
+      <div class="photo-category-title">LOL 笑哈哈《有夠完美鋼琴老師》</div>
+      <div class="photo-grid cols-2">
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_1b0d1b5e32ad4e7db19d82a2155ee4c9~mv2.jpg" alt="LOL笑哈哈" loading="lazy"></div>
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_373ac3693bac4beca67222e2aab43234~mv2.jpg" alt="LOL笑哈哈" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="photo-category">
+      <div class="photo-category-title">音樂 Music</div>
+      <div class="photo-grid cols-2">
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_7f2a6de0001a46369b59f896af335021~mv2.png" alt="音樂攝影" loading="lazy"></div>
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/50e5ed_f4ad1909b4e5455b87c24fff7673ee4f~mv2.png" alt="音樂攝影" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="photo-category">
+      <div class="photo-category-title">日常 Life</div>
+      <div class="photo-grid cols-2">
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/50e5ed_e45911610152403e986ee3e5e959e42e~mv2.png" alt="日常" loading="lazy"></div>
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_0355bec3493d4cadb52feea7e7475b56~mv2.png" alt="日常" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="photo-category">
+      <div class="photo-category-title">素人模特 Amateur Model</div>
+      <div class="photo-grid cols-5">
+        <div class="photo-item portrait"><img src="https://static.wixstatic.com/media/6154d8_80f5af24108d464fa09f2e7d04ce483a~mv2.png" alt="人像攝影" loading="lazy"></div>
+        <div class="photo-item portrait"><img src="https://static.wixstatic.com/media/6154d8_87bb3afa48de49c8ac865c656da7aca9~mv2.png" alt="人像攝影" loading="lazy"></div>
+        <div class="photo-item portrait"><img src="https://static.wixstatic.com/media/6154d8_5af4a5f557d74396a28040512ac73228~mv2.png" alt="人像攝影" loading="lazy"></div>
+        <div class="photo-item portrait"><img src="https://static.wixstatic.com/media/6154d8_48e50b9700044be18ba5712b5b690be4~mv2.png" alt="人像攝影" loading="lazy"></div>
+        <div class="photo-item portrait"><img src="https://static.wixstatic.com/media/6154d8_19fb26b12b0e4898a14c4ce104d3d151~mv2.jpg" alt="人像攝影" loading="lazy"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="video">
+  <div class="section-label">影片剪輯 / Video Editing</div>
+  <h2 style="margin-bottom:2.5rem">剪輯作品集</h2>
+  <div class="video-grid">
+    <a href="https://www.youtube.com/watch?v=WumNL0Wye68" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/WumNL0Wye68/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">The DoDo Men · 嘟嘟人</div><div class="video-title">受Netflix邀請去紐約！挑戰一人訪問5位好萊塢巨星壓力超大？</div><div class="video-dur">25:11</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=gZAIvgcf5jU" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/gZAIvgcf5jU/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">The DoDo Men · 嘟嘟人</div><div class="video-title">在美國用耳機操控博恩、賀瓏搭訕路人！三人都尷尬癌發作！</div><div class="video-dur">17:47</div></div>
+    </a>
+    <a href="https://youtu.be/RCzNU0BrTxg" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/RCzNU0BrTxg/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">LOL 笑哈哈</div><div class="video-title">有夠完美鋼琴老師 巡演紀錄片 初剪（行政統籌、剪輯）</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=74eukc41N6c" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/74eukc41N6c/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">LOL 笑哈哈</div><div class="video-title">開箱折疊鋼琴! 觸鍵跟鋼琴一樣嗎? 多項效果讓兩人驚艷不已</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=EnQASQfSx-0" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/EnQASQfSx-0/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">LOL 笑哈哈</div><div class="video-title">突襲清大音樂系學生 Eric唱歌驚動整個音樂系!!!!</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=PqY340XFWV0" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/PqY340XFWV0/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">知識迷航</div><div class="video-title">公開江老師的辛酸血淚史！遭家人斷一切金援...我也曾經想過放棄音樂... Ft.江老師</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=HGcAopSrl4w" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/HGcAopSrl4w/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">知識迷航</div><div class="video-title">死亡並不可怕，遺憾的是沒有好好告別....小冬瓜最遺憾的事情是... Ft.單程旅行社 小冬瓜</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=Kl--1KdoSqo" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/Kl--1KdoSqo/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">知識迷航</div><div class="video-title">台灣人愛網購📦 電商物流每天上萬筆訂單如何消化?</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=zXCo7KbtE6I" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/zXCo7KbtE6I/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">知識迷航 · 企業開箱</div><div class="video-title">首度公開Dcard內部！一日創作者體驗 探索匿名社群的神秘世界！</div></div>
+    </a>
+    <a href="https://youtu.be/zQB8dBfbmKk" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/zQB8dBfbmKk/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">知識迷航 · 疑難雜症小賣所</div><div class="video-title">熊仔師徒合體！《信》不為人知的秘辛竟然是... Ft.熊仔</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=PIGGvQsDdUQ" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/PIGGvQsDdUQ/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">周慕姿放心說</div><div class="video-title">高敏人的味覺不一樣？食物為什麼讓人感到「被愛」？ft.歐陽靖</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=WmU_kjCL6FM" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/WmU_kjCL6FM/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">徐玉蘭 Master Hsu</div><div class="video-title">徐玉蘭命中有數首位大來賓✨八字和心理學竟然如此相近！</div></div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=mh1ddxJO5BQ" target="_blank" rel="noopener" class="video-card">
+      <div class="video-thumb"><img src="https://i.ytimg.com/vi/mh1ddxJO5BQ/maxresdefault.jpg" alt="" loading="lazy"><div class="play-btn"></div></div>
+      <div class="video-info"><div class="video-type">Ting Music 挺音樂</div><div class="video-title">理想混蛋 Bestards x Ting Music — 擁有千萬點閱的理想混蛋，背後不為人知的故事</div></div>
+    </a>
+  </div>
+  <div style="max-width:1100px;margin-top:1.5rem;text-align:right">
+    <a href="https://youtube.com/playlist?list=PL1ly_OvbuGSEltvbCRWCePtkj-Kdt_NOJ" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;font-size:.75rem;letter-spacing:.1em">完整作品集（76部）→</a>
+  </div>
+</section>
+
+<section id="tingmusic">
+  <div class="section-label">Ting Music 挺音樂 / Music Interview</div>
+  <div class="yt-layout">
+    <div class="yt-info">
+      <h2>音你而在</h2>
+      <p style="margin-top:.75rem">深入獨立音樂圈的專訪節目。每一集，與一位音樂人坐下來，聊創作、聊生命，聊那些藏在旋律裡說不出口的故事。</p>
+      <p>2021 年創立至今，已完成超過 50 集音樂人專訪。</p>
+      <a href="https://www.youtube.com/@TingMusic" target="_blank" rel="noopener" class="yt-btn">▶ 前往 YouTube 頻道</a>
+    </div>
+    <div>
+      <a href="https://www.youtube.com/watch?v=YPYnIEGaaCM" target="_blank" rel="noopener" class="yt-thumb-main">
+        <img src="https://i.ytimg.com/vi/YPYnIEGaaCM/maxresdefault.jpg" alt="問題總部 x Ting Music" loading="lazy">
+        <div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px"></div>
+      </a>
+      <div class="yt-grid-small">
+        <a href="https://www.youtube.com/watch?v=vqNoyVEXJlo" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/vqNoyVEXJlo/mqdefault.jpg" alt="鄭宜農" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px"></div></a>
+        <a href="https://www.youtube.com/watch?v=m_xZqAfHrdc" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/m_xZqAfHrdc/mqdefault.jpg" alt="黃宇寒" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px"></div></a>
+        <a href="https://www.youtube.com/@TingMusic" target="_blank" rel="noopener" class="yt-more">更多影片 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tingcheng">
+  <div class="section-label">鄭珽 Ting Cheng / Personal Channel</div>
+  <div class="yt-layout">
+    <div class="yt-info">
+      <h2>深度<br>音樂訪談</h2>
+      <p style="margin-top:.75rem">個人 YouTube 頻道，呈現更深度、更長篇的音樂人對談。聊人生低潮、聊創作初衷，聊那些不輕易說出口的真實。純粹出於對音樂和人的好奇，做著自己喜歡的事。</p>
+      <p>合作包含柯智棠、柯泯薰、李嫣、溫蒂漫步、ELKIE 莊錠欣等。</p>
+      <a href="https://www.youtube.com/channel/UCCmDFLZDMVERUMnSxlpxJ3g" target="_blank" rel="noopener" class="yt-btn">▶ 前往個人頻道</a>
+    </div>
+    <div>
+      <a href="https://www.youtube.com/watch?v=MPkSL3NSL7Q" target="_blank" rel="noopener" class="yt-thumb-main">
+        <img src="https://i.ytimg.com/vi/MPkSL3NSL7Q/maxresdefault.jpg" alt="柯智棠 音你而在 Ep64" loading="lazy">
+        <div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px"></div>
+      </a>
+      <div class="yt-grid-small">
+        <a href="https://www.youtube.com/watch?v=Yg9DL1UJoTo" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/Yg9DL1UJoTo/mqdefault.jpg" alt="柯泯薰" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px"></div></a>
+        <a href="https://www.youtube.com/watch?v=04dtw36H6eA" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/04dtw36H6eA/mqdefault.jpg" alt="李嫣" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px"></div></a>
+        <a href="https://www.youtube.com/watch?v=jLLKNx4jV2A" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/jLLKNx4jV2A/mqdefault.jpg" alt="溫蒂漫步" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px"></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vlog" style="background:var(--dark)">
+  <div class="section-label">Vlog / 旅途日常</div>
+  <div class="yt-layout">
+    <div class="yt-info">
+      <h2>自拍自剪<br>的旅途</h2>
+      <p style="margin-top:.75rem">從拍攝到剪輯，一手包辦的 Vlog 紀錄。旅行、日常、音樂現場，用鏡頭存下那些想留住的瞬間。</p>
+      <a href="https://youtube.com/playlist?list=PLPfviXoyCHuBEiXF3eLafZMe0LyAHwPKG" target="_blank" rel="noopener" class="yt-btn">▶ 前往 Vlog 播放清單</a>
+    </div>
+    <div>
+      <a href="https://www.youtube.com/watch?v=vjQCDhUq0qU" target="_blank" rel="noopener" class="yt-thumb-main">
+        <img src="https://i.ytimg.com/vi/vjQCDhUq0qU/maxresdefault.jpg" alt="Vlog" loading="lazy">
+        <div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px"></div>
+      </a>
+      <div class="yt-grid-small" style="grid-template-columns:repeat(4,1fr)">
+        <a href="https://www.youtube.com/watch?v=2REnpsT2YxU" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/2REnpsT2YxU/mqdefault.jpg" alt="Vlog" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px"></div></a>
+        <a href="https://www.youtube.com/watch?v=PIHXxXFtJUM" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/PIHXxXFtJUM/mqdefault.jpg" alt="Vlog" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px"></div></a>
+        <a href="https://www.youtube.com/watch?v=ObFpq5HfAYY" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/ObFpq5HfAYY/mqdefault.jpg" alt="Vlog" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px"></div></a>
+        <a href="https://www.youtube.com/watch?v=EKcZJKu6KhU" target="_blank" rel="noopener" class="yt-small"><img src="https://i.ytimg.com/vi/EKcZJKu6KhU/mqdefault.jpg" alt="Vlog" loading="lazy"><div class="play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px"></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="filter">
+  <div class="section-label">Instagram 濾鏡製作 / AR Filters</div>
+  <div class="filter-layout">
+    <div class="filter-info">
+      <h2>超過百位<br>藝人分享</h2>
+      <p style="margin-top:1rem">自製 Instagram AR 濾鏡，受到超過百位藝人與創作者轉發分享，在台灣音樂圈廣泛流傳。</p>
+      <p>濾鏡設計融合音樂美學與視覺創意，成為許多藝人發文時的首選工具。</p>
+    </div>
+    <div class="filter-shots">
+      <div class="filter-shot"><img src="https://static.wixstatic.com/media/6154d8_0ca928acb53648a498cc9295ad95647b~mv2.png" alt="Instagram濾鏡" loading="lazy"></div>
+      <div class="filter-shot"><img src="https://static.wixstatic.com/media/6154d8_5190ff6aec20420e96eff2d2e1f44d85~mv2.png" alt="Instagram濾鏡" loading="lazy"></div>
+      <div class="filter-shot"><img src="https://static.wixstatic.com/media/6154d8_e238a81da8b941aaaa499154157b68ed~mv2.png" alt="Instagram濾鏡" loading="lazy"></div>
+      <div class="filter-shot"><img src="https://static.wixstatic.com/media/6154d8_277bca9ef9b1483ea10606873d4f9beb~mv2.png" alt="Instagram濾鏡" loading="lazy"></div>
+      <div class="filter-shot"><img src="https://static.wixstatic.com/media/6154d8_b42b2b244e8241ff93c3e8ecdbec8b09~mv2.png" alt="Instagram濾鏡" loading="lazy"></div>
+    </div>
+  </div>
+
+  <div style="margin-top:5rem;max-width:1100px">
+    <div class="section-label" style="margin-bottom:2rem">MV 演出</div>
+    <div class="mv-block">
+      <div class="mv-block-title">青峰｜Outsider</div>
+      <div class="photo-grid cols-3" style="gap:.4rem">
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_d86817b99cdb4ef59cc900f662ba24b0~mv2.png" alt="青峰 Outsider MV" loading="lazy"></div>
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_2d10e5360f9e4a77913373c63294bb99~mv2.png" alt="青峰 Outsider MV" loading="lazy"></div>
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_26d2837ea4b14f06be0686060a98d7e7~mv2.png" alt="青峰 Outsider MV" loading="lazy"></div>
+      </div>
+    </div>
+    <div class="mv-block">
+      <div class="mv-block-title">陳妍如｜愛轉身離開</div>
+      <div class="photo-grid cols-3" style="gap:.4rem">
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_905374656c59423a953ce5385926c94c~mv2.png" alt="陳妍如 MV" loading="lazy"></div>
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_db17a98af96f45cc8dc0835de31cb98d~mv2.png" alt="陳妍如 MV" loading="lazy"></div>
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_70f65b3a73234fcd813b602750f27cb6~mv2.png" alt="陳妍如 MV" loading="lazy"></div>
+      </div>
+    </div>
+    <div class="mv-block">
+      <div class="mv-block-title">麋先生 x 任賢齊｜別怕</div>
+      <div class="photo-grid cols-3" style="gap:.4rem">
+        <div class="photo-item landscape"><img src="https://static.wixstatic.com/media/6154d8_d6480b91fd924ee0adb43dff23fe0b69~mv2.png" alt="麋先生 別怕 MV" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="podcast">
+  <div class="section-label">Podcast / 音你而在</div>
+  <div class="podcast-layout">
+    <div class="podcast-info">
+      <h2>音你而在<br>Podcast</h2>
+      <p style="margin-top:1rem">用耳朵走進音樂人的內心世界。每一集，是一段真實的對話，一個關於音樂與人生的故事。</p>
+      <p>上架於 Spotify、Apple Podcasts 等各大平台，隨時隨地都能聽見獨立音樂的聲音。</p>
+      <div class="listen-btns">
+        <a href="https://open.spotify.com/show/7bMOOI4AvCK40fSS8jsgi4" target="_blank" rel="noopener" class="listen-btn">▶ Spotify 收聽</a>
+        <a href="https://www.youtube.com/channel/UCCmDFLZDMVERUMnSxlpxJ3g" target="_blank" rel="noopener" class="listen-btn sec">▶ YouTube</a>
+      </div>
+    </div>
+    <div class="podcast-embed">
+      <iframe src="https://open.spotify.com/embed/show/7bMOOI4AvCK40fSS8jsgi4?utm_source=generator&theme=0" width="100%" height="500" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<section id="resume">
+  <div class="section-label">工作經歷 / Resume</div>
+  <div class="resume-grid">
+    <div>
+      <h2 style="margin-bottom:2.5rem">走過<br>的路</h2>
+      <div class="timeline">
+
+        <div class="tl-group">
+          <div class="tl-year">2026</div>
+          <div class="tl-items">
+            <div class="tl-item">知識衛星影音製作<br>
+              · <a href="https://sat.cool/course/193" target="_blank" rel="noopener">辣媽《媽媽的暖心麵包｜在家做出屬於家人的百變麵包》</a> 攝影剪輯<br>
+              · <a href="https://sat.cool/course/172" target="_blank" rel="noopener">雪力《人生系統設計課｜用心理學重新整理人生》</a> 攝影剪輯
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-group">
+          <div class="tl-year">2025</div>
+          <div class="tl-items">
+            <div class="tl-item">知識衛星影音製作<br>
+              · <a href="https://sat.cool/course/108" target="_blank" rel="noopener">Kass《輕鬆入門高級感K-POP｜韓國天團製作人的頂流音樂創作指南》</a> 支援拍攝<br>
+              · <a href="https://sat.cool/course/113" target="_blank" rel="noopener">徐玉蘭《風水磁場順心術｜輕鬆運用空間能量，轉變財運與機運》</a> 支援拍攝<br>
+              · <a href="https://sat.cool/course/121" target="_blank" rel="noopener">Gail《26個情境對話學泰文｜即學即用輕鬆開口！》</a> 攝影剪輯<br>
+              · <a href="https://sat.cool/course/138" target="_blank" rel="noopener">林熙英文《24天英語口說奇蹟｜破解翻譯腦，三步驟打造母語級表達力》</a> 攝影剪輯<br>
+              · <a href="https://sat.cool/course/133" target="_blank" rel="noopener">尼泊爾《正宗瑜伽｜開啟七大脈輪‧喚醒全身能量》</a> 中文配音<br>
+              · <a href="https://sat.cool/course/155" target="_blank" rel="noopener">江老師《鋼琴魔法｜用15首經典打通萬用彈奏力》</a> 導演、攝影、剪輯
+            </div>
+            <div class="tl-item">Podcast 攝影剪輯｜<a href="https://www.youtube.com/@muerstalk" target="_blank" rel="noopener">周慕姿放心說</a>、<a href="https://www.youtube.com/@masterhsutalk" target="_blank" rel="noopener">徐玉蘭 Master Hsu</a></div>
+          </div>
+        </div>
+
+        <div class="tl-group">
+          <div class="tl-year">2024</div>
+          <div class="tl-items">
+            <div class="tl-item">知識衛星影音製作<br>
+              · <a href="https://sat.cool/course/86" target="_blank" rel="noopener">陳威宇《歌手的老師帶你唱好主打歌！歌唱技巧訓練全指南》</a> 支援拍攝<br>
+              · <a href="https://sat.cool/course/105" target="_blank" rel="noopener">王宏哲《情緒教養課｜大腦訓練遊戲・孩子情緒管理・親子有效溝通》</a> 支援剪輯<br>
+              · <a href="https://sat.cool/course/83" target="_blank" rel="noopener">KIMU《Procreate 21天生活繪畫跟練課》</a> 拍攝剪輯<br>
+              · <a href="https://sat.cool/course/92" target="_blank" rel="noopener">米薩小姐《塔羅解答之書｜成為自己的占卜師，為生命指引方向》</a> 攝影剪輯<br>
+              · <a href="https://sat.cool/course/106" target="_blank" rel="noopener">設事未深《視覺風格應用指南》</a> 拍攝剪輯<br>
+              · <a href="https://sat.cool/course/82" target="_blank" rel="noopener">阮秋姮《越南生活通行證》</a> 協助剪輯
+            </div>
+            <div class="tl-item">The DoDo Men 嘟嘟人 YouTube 影片剪輯</div>
+          </div>
+        </div>
+
+        <div class="tl-group">
+          <div class="tl-year">2023</div>
+          <div class="tl-items">
+            <div class="tl-item">知識迷航 YouTube 製作人（合作：熊仔、百靈果、江老師、賀瓏、志祺七七、黑嘉嘉、黃豪平等）</div>
+            <div class="tl-item">知識衛星影音製作<br>
+              · <a href="https://satcool.vn/course/1" target="_blank" rel="noopener">Cô Giáo Quỳnh《越南多益》</a> 拍攝剪輯<br>
+              · <a href="https://sat.cool/course/69" target="_blank" rel="noopener">全方位形象打造《韓國個人色彩鑑定課》</a> 拍攝剪輯
+            </div>
+            <div class="tl-item">個人 YouTube 頻道與 12 組音樂人合作（陳漢典、林曉培、ELKIE 莊錠欣、O.Dkizzya、溫蒂漫步、林潔心等）</div>
+            <div class="tl-item">台北時裝週 WooLeeX 活動拍攝</div>
+          </div>
+        </div>
+
+        <div class="tl-group">
+          <div class="tl-year">2022</div>
+          <div class="tl-items">
+            <div class="tl-item">國際攝影大賽多項獲獎（巴黎 PX3 銅獎、NYX 金銀獎、MIFA 榮譽獎、布達佩斯銀獎、IPA Official Selection）</div>
+            <div class="tl-item">台北時裝週 WooLeeX 活動拍攝剪輯</div>
+            <div class="tl-item">個人 YouTube 頻道（鄭珽 Ting Cheng）創立</div>
+          </div>
+        </div>
+
+        <div class="tl-group">
+          <div class="tl-year">2021</div>
+          <div class="tl-items">
+            <div class="tl-item">Ting Music 挺音樂「音你而在」專訪節目啟動</div>
+            <div class="tl-item">台北時裝週 WooLeeX 活動攝影剪輯</div>
+            <div class="tl-item">LOL 笑哈哈 YouTube 頻道拍攝剪輯</div>
+            <div class="tl-item">國立臺灣交響樂團 4K5G 音樂家 攝影師</div>
+            <div class="tl-item">嘆維觀指 林灝維鋼琴獨奏音樂會 舞台監督</div>
+            <div class="tl-item">LOL 笑哈哈《有夠完美鋼琴老師》巡迴演出 行政統籌</div>
+          </div>
+        </div>
+
+        <div class="tl-group">
+          <div class="tl-year">2020</div>
+          <div class="tl-items">
+            <div class="tl-item">尚億國際創育有限公司 新媒體營運長</div>
+            <div class="tl-item">麋先生 ✕ 任賢齊《別怕》MV 客串</div>
+            <div class="tl-item">扶輪社 賴清德副總統演講 攝影</div>
+          </div>
+        </div>
+
+        <div class="tl-group">
+          <div class="tl-year">2018 – 2019</div>
+          <div class="tl-items">
+            <div class="tl-item">青峰《Outsider》、陳妍如《愛轉身離開》MV 演出</div>
+            <div class="tl-item">世大運 公關媒體組工作人員</div>
+            <div class="tl-item">演唱會工作人員：ONE OK ROCK、EXO、IU、THE SCRIPT、Mr.Children、林俊傑</div>
+            <div class="tl-item">四分衛 台北高雄場 隨團攝影；簡單生活節 守夜人 隨團攝影</div>
+            <div class="tl-item">覺醒大暖祭 舞台執行助理</div>
+            <div class="tl-item">馬來西亞媒體專訪 皇室娛樂官方頻道 — 專訪挺音樂</div>
+          </div>
+        </div>
+
+        <div class="tl-group">
+          <div class="tl-year">2016 – 2017</div>
+          <div class="tl-items">
+            <div class="tl-item">全國校際音樂原創大賽（第二、三、四屆）｜評審長：張惠妹、周杰倫、林俊傑</div>
+            <div class="tl-item">金曲講座節目錄影（林俊傑、蕭敬騰、方大同）</div>
+            <div class="tl-item">流人製音樂祭 第一、二屆 行政統籌、藝人接洽</div>
+            <div class="tl-item">飛魚音樂餐廳 音控、燈控</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h2 style="margin-bottom:2.5rem;visibility:hidden">.</h2>
+      <div style="border:1px solid var(--border);padding:2rem;margin-bottom:1.5rem;background:var(--dark)">
+        <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">學歷 Education</div>
+        <div style="font-size:.9rem;font-family:'Noto Serif TC',serif;color:var(--text-primary);margin-bottom:.25rem">流行音樂產業系 畢業</div>
+        
+      </div>
+      <div style="border:1px solid var(--border);padding:2rem;background:var(--dark)">
+        <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">創辦 &amp; 主導</div>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <div><div style="font-size:.82rem;font-family:'Noto Serif TC',serif;color:var(--text-primary)">Ting Music 挺音樂</div><div style="font-size:.72rem;color:var(--text-muted)">音樂媒體平台 · 創辦人</div></div>
+          <div><div style="font-size:.82rem;font-family:'Noto Serif TC',serif;color:var(--text-primary)">音你而在</div><div style="font-size:.72rem;color:var(--text-muted)">獨立音樂專訪節目 · 製作人 &amp; 主持人</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="justify-content:center">聯絡 / Contact</div>
+    <h2>一起創作<br>什麼吧</h2>
+    <p class="contact-sub">無論是攝影合作、影片製作、音樂專訪，<br>或只是想說說話，都歡迎找我。</p>
+    <div class="contact-links">
+      <a href="https://www.instagram.com/ting._1127/" target="_blank" rel="noopener" class="contact-link">
+        <div class="contact-link-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        <span class="contact-link-label">Instagram</span>
+      </a>
+      <a href="https://www.youtube.com/channel/UCCmDFLZDMVERUMnSxlpxJ3g" target="_blank" rel="noopener" class="contact-link">
+        <div class="contact-link-icon"><svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></div>
+        <span class="contact-link-label">YouTube</span>
+      </a>
+      <a href="https://open.spotify.com/show/7bMOOI4AvCK40fSS8jsgi4" target="_blank" rel="noopener" class="contact-link">
+        <div class="contact-link-icon"><svg viewBox="0 0 24 24"><path d="M11.997 0C5.377 0 .007 5.37.007 11.99S5.377 23.98 11.997 23.98c6.621 0 11.99-5.37 11.99-11.99C23.987 5.37 18.617 0 11.997 0zm5.503 17.304a.748.748 0 0 1-1.026.252c-2.816-1.723-6.358-2.112-10.525-1.158a.748.748 0 1 1-.334-1.46c4.56-1.044 8.47-.595 11.634 1.341.35.216.46.671.251 1.025zm1.467-3.263a.935.935 0 0 1-1.283.312c-3.225-1.983-8.138-2.557-11.944-1.4a.935.935 0 1 1-.543-1.793c4.356-1.322 9.774-.682 13.459 1.598.439.27.579.843.311 1.283zm.126-3.4c-3.864-2.296-10.237-2.509-13.926-1.387a1.122 1.122 0 0 1-.652-2.145c4.234-1.285 11.274-1.037 15.724 1.605a1.12 1.12 0 0 1-1.146 1.927z"/></svg></div>
+        <span class="contact-link-label">Podcast</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2026 Ting Cheng. All rights reserved.</div>
+  <div class="footer-logo">鄭珽</div>
+</footer>
+
+<script>
+(function(){
+  function block(e){e.preventDefault();return false;}
+
+  document.addEventListener('contextmenu',function(e){
+    if(e.target.closest('#photography, #filter, #mv')){block(e);}
+  });
+
+  document.addEventListener('dragstart',function(e){
+    if(e.target.tagName==='IMG'&&e.target.closest('#photography, #filter, #mv')){block(e);}
+  });
+
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('#photography img, #filter img, #mv img').forEach(function(img){
+      img.setAttribute('draggable','false');
+      img.style.userSelect='none';
+      img.style.webkitUserSelect='none';
+      img.style.pointerEvents='none';
+    });
+
+    var style=document.createElement('style');
+    style.textContent='#photography img,#filter img,#mv img{-webkit-user-drag:none;user-drag:none;}';
+    document.head.appendChild(style);
+  });
+})();
+</script>
+</body>
+</html>
